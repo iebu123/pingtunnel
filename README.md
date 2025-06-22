@@ -16,6 +16,19 @@ Pingtunnel is a tool that send TCP/UDP traffic over ICMP.
 
 ## Usage
 
+
+### 🚀 Quick Install & Setup (Recommended)
+
+Run the following command to download and execute the install script in one step:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/esrrhs/pingtunnel/master/pingtunnel-install.sh | bash
+```
+
+---
+
+### 💻 Manual Install
+
 ### Install server
 
 -   First prepare a server with a public IP, such as EC2 on AWS, assuming the domain name or public IP is www.yourserver.com
@@ -72,6 +85,7 @@ docker run --name pingtunnel-client -d --restart=always -p 1080:1080 esrrhs/ping
 ```
 
 ---
+
 
 ### 🔧 Setting Up `pingtunnel` as a systemd Service (Server Mode)
 
