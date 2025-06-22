@@ -8,6 +8,11 @@ INSTALL_DIR="/usr/local/bin"
 SERVICE_DIR="/etc/systemd/system"
 CONF_DIR="/etc/pingtunnel"
 
+# Function to print bold text
+function print_bold() {
+    echo -e "\033[1m$1\033[0m"
+}
+
 function detect_arch() {
     ARCH=$(uname -m)
     if [[ "$ARCH" == "x86_64" ]]; then
@@ -24,11 +29,13 @@ function install_tunnel() {
     echo "Detecting OS and architecture..."
     PT_ARCH=$(detect_arch)
     echo "Detected: $PT_ARCH"
-    ZIP_NAME="pingtunnel_${PT_ARCH}.zip"
+    #ZIP_NAME="pingtunnel_linux_${PT_ARCH}.zip"
+    ZIP_NAME="pingtunnel_linux_amd64.zip"
     TMP_DIR=$(mktemp -d)
     cd "$TMP_DIR"
     echo "Fetching latest release URL..."
-    DOWNLOAD_URL=$(curl -sL "$PT_RELEASES" | grep -oP "https://[^\"]*${PT_ARCH}\\.zip" | head -n1)
+    #DOWNLOAD_URL=$(curl -sL "$PT_RELEASES" | grep -oP "https://[^\"]*${PT_ARCH}\\.zip" | head -n1)
+    DOWNLOAD_URL="https://github.com/esrrhs/pingtunnel/releases/download/2.8/pingtunnel_linux_amd64.zip"
     if [[ -z "$DOWNLOAD_URL" ]]; then
         echo "Could not find download URL for $PT_ARCH"
         exit 1
@@ -192,12 +199,17 @@ EOF
 }
 
 function main_menu() {
-    echo "==== Pingtunnel Setup Menu ===="
-    echo "1) Install pingtunnel"
-    echo "2) Configure server-side systemd service"
-    echo "3) Configure client-side systemd service"
-    echo "q) Quit"
-    read -rp "Select an option: " opt
+    clear
+    print_bold "==============================="
+    print_bold "        PINGTUNNEL         "
+    print_bold "==============================="
+    echo
+    echo -e "\033[36m1)\033[0m Install pingtunnel"
+    echo -e "\033[36m2)\033[0m Configure \033[32mserver-side\033[0m systemd service"
+    echo -e "\033[36m3)\033[0m Configure \033[34mclient-side\033[0m systemd service"
+    echo -e "\033[36mq)\033[0m Quit"
+    echo
+    read -rp $'\033[1mSelect an option:\033[0m ' opt
     case "$opt" in
         1)
             install_tunnel
@@ -212,13 +224,11 @@ function main_menu() {
             exit 0
             ;;
         *)
-            echo "Invalid option"
+            echo -e "\033[31mInvalid option\033[0m"
             ;;
     esac
 }
 
 while true; do
     main_menu
-    # Add a sleep to avoid rapid looping on invalid input
-    sleep 1
 done
