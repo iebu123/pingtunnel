@@ -28,7 +28,7 @@ function install_tunnel() {
     TMP_DIR=$(mktemp -d)
     cd "$TMP_DIR"
     echo "Fetching latest release URL..."
-    DOWNLOAD_URL=$(curl -sL "$PT_RELEASES" | grep -oP "https://[^"]*${PT_ARCH}\\.zip" | head -n1)
+    DOWNLOAD_URL=$(curl -sL "$PT_RELEASES" | grep -oP "https://[^\"]*${PT_ARCH}\\.zip" | head -n1)
     if [[ -z "$DOWNLOAD_URL" ]]; then
         echo "Could not find download URL for $PT_ARCH"
         exit 1
@@ -199,14 +199,26 @@ function main_menu() {
     echo "q) Quit"
     read -rp "Select an option: " opt
     case "$opt" in
-        1) install_tunnel ;;
-        2) configure_server ;;
-        3) configure_client ;;
-        q|Q) exit 0 ;;
-        *) echo "Invalid option";;
+        1)
+            install_tunnel
+            ;;
+        2)
+            configure_server
+            ;;
+        3)
+            configure_client
+            ;;
+        q|Q)
+            exit 0
+            ;;
+        *)
+            echo "Invalid option"
+            ;;
     esac
 }
 
 while true; do
     main_menu
+    # Add a sleep to avoid rapid looping on invalid input
+    sleep 1
 done
