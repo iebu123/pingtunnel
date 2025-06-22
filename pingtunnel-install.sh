@@ -229,6 +229,7 @@ function main_menu() {
     esac
 }
 
-while true; do
-    main_menu
-done
+main_menu
+# while true; do
+#     main_menu
+# done
