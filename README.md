@@ -22,7 +22,7 @@ Pingtunnel is a tool that send TCP/UDP traffic over ICMP.
 Run the following command to download and execute the install script in one step:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/esrrhs/pingtunnel/master/pingtunnel-install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/iebu123/pingtunnel/master/pingtunnel-install.sh | bash
 ```
 
 ---
